@@ -6,14 +6,13 @@ const app = express()
 
 app.use(bodyParser.json({ limit: "50mb" }));
 
-const restaurant = require("./controllers/restaurant")
+const restaurant = require("./routes/restaurant")
 
 app.get('/',  (req, res) => {
-    console.log("hi")
-    res.send('hello world')
+    res.send('Buying Frenzy')
 })
 
-app.use("v1/api/restaurant", restaurant)
+app.use("/api/v1/restaurant", restaurant)
 
 module.exports = app
 
