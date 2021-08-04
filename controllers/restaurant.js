@@ -1,14 +1,15 @@
-const Restaurant = require('../models').Restaurant
-const Menu = require('../models').Menu
-const OpenHour = require('../models').OpenHour
-const Sequelize = require('sequelize')
-const {Op,fn, col} = Sequelize
+const db = require('../models')
+const { Op, fn, col } = require('sequelize')
+
+const Restaurant = db.Restaurant
+const Menu = db.Menu
+const OpenHour = db.OpenHour
 
 const weeks = ["Mon", "Tues", "Weds", "Thurs", "Fri", "Sat", "Sun"]
 
 function restaurantOpenAtCertainTime(req, res) {
-    var {day,time} = req.query;
-    var split_time = time.split(':'), minutes = 0;
+    let {day,time} = req.query;
+    let split_time = time.split(':'), minutes = 0;
     minutes = parseInt(split_time[0]) * 60;
     if(split_time.length==2)
         minutes+=parseInt(split_time[1]);
@@ -23,6 +24,41 @@ function restaurantOpenAtCertainTime(req, res) {
     })
 }
 
+function topYRestaurant(req, res) {
+
+    let { y, x, min_price, max_price, lesser } = req.query;
+    y = parseInt(y);
+    if(min_price==undefined)
+        min_price = 0;
+    if (max_price == undefined)
+        max_price = Number.MAX_SAFE_INTEGER;
+    
+    let compareFun;
+    if(lesser==1){
+        compareFun = Op.lt
+    }
+    else{
+        compareFun = Op.gt
+    }
+    Menu.findAll({
+        limit : y, 
+        attributes: [[fn('count', col('restaurantId')), 'cnt']],
+        where: { price: { [Op.lte]: max_price, [Op.gte]: min_price } }, 
+        include :[{
+            model : Restaurant,
+            required : true,
+            attributes: ['restaurantName']
+        }],
+        group : ['restaurantId'],
+        having: { cnt : {[compareFun] : x}},
+        logging: console.log
+    }).then(restro => {
+        return res.status(201).json(restro);
+    }).catch(err=>{
+        console.log(err)
+        res.status(400).json(err);
+    })
+}
 
 
 module.exports = {restaurantOpenAtCertainTime, topYRestaurant}
