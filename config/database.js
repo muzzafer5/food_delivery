@@ -8,6 +8,7 @@ module.exports = {
     password: process.env.DB_PASS,
     database: process.env.DB_NAME,
     dialect: 'mysql',
+    "logging": false,
     dialectOptions: {
       bigNumberStrings: true
     }

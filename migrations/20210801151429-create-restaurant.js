@@ -13,6 +13,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       cashBalance: {
+        allowNull: false,
         type: Sequelize.FLOAT
       },
       createdAt: {

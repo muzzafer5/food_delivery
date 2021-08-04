@@ -4,8 +4,9 @@ const port = process.env.APP_PORT
 
 var models = require("./models");
 
+// checking db connection
 models.sequelize.sync().then(() => {
-    console.log("connected")
+    console.log("mysql db connected")
 }).catch(() => {
     console.log("error")
 })

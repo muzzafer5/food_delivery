@@ -27,6 +27,7 @@ module.exports = {
         type: Sequelize.DATE
       },
       restaurantId: {
+        allowNull: false,
         type: Sequelize.INTEGER,
         onDelete: 'CASCADE',
         references: {

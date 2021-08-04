@@ -9,9 +9,11 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       transactionAmount: {
+        allowNull: false,
         type: Sequelize.FLOAT
       },
       transactionDate: {
+        allowNull: false,
         type: Sequelize.DATE
       },
       createdAt: {
@@ -23,6 +25,7 @@ module.exports = {
         type: Sequelize.DATE
       },
       userId: {
+        allowNull: false,
         type: Sequelize.INTEGER,
         onDelete: 'CASCADE',
         references: {
@@ -32,6 +35,7 @@ module.exports = {
         }
       },
       restaurantId: {
+        allowNull: false,
         type: Sequelize.INTEGER,
         references: {
           model: 'Restaurants',
@@ -40,6 +44,7 @@ module.exports = {
         }
       },
       menuId: {
+        allowNull: false,
         type: Sequelize.INTEGER,
         references: {
           model: 'Menus',

@@ -26,6 +26,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     cashBalance: {
+      defaultValue:0,
       type: DataTypes.FLOAT
     }
   }, {
