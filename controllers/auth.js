@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const Auth = require('../models').Auth
+const User = require('../models').User
 const SECRET_KEY = process.env.SECRET_KEY
 
 function login(req, res) {
@@ -34,7 +35,7 @@ function login(req, res) {
 }
 
 function signup(req, res) {
-    const userData = {
+    const authData = {
         username: req.body.username,
         password: req.body.password
     }
@@ -44,12 +45,18 @@ function signup(req, res) {
         .then(user => {
             if (!user) {
                 bcrypt.hash(req.body.password, 10, (err, hash) => {
-                    userData.password = hash
-                    Auth.create(userData)
-                        .then(user_data => {
-                            res.json("Registered")
+                    authData.password = hash
+                    Auth.create(authData)
+                        .then(auth => {
+                            User.create({ name: req.body.name, cashBalance: req.body.cashBalance, authId: auth.dataValues.id}).then(user=>{
+                                res.json("Registered")
+                            }).catch(err => {
+                                console.log(err)
+                                return res.status(422).json({ error: err })
+                            })
                         })
                         .catch(err => {
+                            console.log(err)
                             return res.status(422).json({ error: err })
                         })
                 })
