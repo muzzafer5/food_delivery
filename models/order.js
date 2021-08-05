@@ -14,10 +14,6 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'userID',
         onDelete: 'CASCADE'
       })
-      Order.belongsTo(models.Menu, {
-        foreignKey: 'menuID',
-        onDelete: 'CASCADE'
-      })
       Order.belongsTo(models.Restaurant, {
         foreignKey: 'restaurantID',
         onDelete: 'CASCADE'
@@ -25,6 +21,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Order.init({
+    dishName: {
+      type : DataTypes.string,
+      allowNull : false
+    },
     transactionAmount: {
       type: DataTypes.FLOAT,
       allowNull: false

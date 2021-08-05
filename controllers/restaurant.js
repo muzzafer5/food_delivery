@@ -60,5 +60,13 @@ function topYRestaurant(req, res) {
     })
 }
 
+async function searchRestaurant(req, res){
+    let {restaurantName} = req.params;
+    // const restro = await db.sequelize.query('SELECT restaurantName,soundex(restaurantName),soundex("' + restaurantName + '") FROM Restaurants limit 20', {
+    //     model: Restaurant,
+    //     mapToModel: true // pass true here if you have any mapped fields
+    // });
+    // res.json(restro)
+}
 
-module.exports = {restaurantOpenAtCertainTime, topYRestaurant}
+module.exports = {restaurantOpenAtCertainTime, topYRestaurant, searchRestaurant}

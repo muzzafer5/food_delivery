@@ -11,8 +11,12 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       User.hasMany(models.Order, {
-        foreignKey: 'UserId',
+        foreignKey: 'userId',
         as: 'orders'
+      })
+      User.belongsTo(models.Auth,{
+        foreignKey : 'authId',
+        onDelete: 'CASCADE'
       })
     }
   };
