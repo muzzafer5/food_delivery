@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
   };
   Order.init({
     dishName: {
-      type : DataTypes.string,
+      type : DataTypes.STRING,
       allowNull : false
     },
     transactionAmount: {

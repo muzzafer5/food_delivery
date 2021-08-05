@@ -8,7 +8,7 @@ router
     .post((req, res) => login(req, res))
 
 router
-    .route('/singup')
+    .route('/signup')
     .post((req, res) => signup(req, res))
 
 

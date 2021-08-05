@@ -3,6 +3,7 @@ const router = express.Router()
 
 const {restaurantOpenAtCertainTime, topYRestaurant, searchRestaurant} = require('../controllers/restaurant')
 
+const requireLogin = require('../middleware/require_login')
 router
     .route('/open')
     .get((req, res) => restaurantOpenAtCertainTime(req, res))

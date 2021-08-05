@@ -1,19 +1,20 @@
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const Auth = require('../models').Auth
-const SECRET_KEY  = 1
+const SECRET_KEY = process.env.SECRET_KEY
 
-function Login(req, res) {
+function login(req, res) {
     Auth.findOne({
-        where : {user: req.body.username}
+        where: { username: req.body.username}
     })
         .then(user => {
             if (user) {
                 if (bcrypt.compareSync(req.body.password, user.password)) {
                     // Passwords match
                     const payload = {
-                        _id: user._id,
+                        _id: user.id,
                     }
+                    console.log(payload)
                     let token = jwt.sign(payload, SECRET_KEY, {
                         expiresIn: 3600 * 24 * 30
                     })
@@ -32,19 +33,19 @@ function Login(req, res) {
         })
 }
 
-function Signup(req, res) {
+function signup(req, res) {
     const userData = {
         username: req.body.username,
         password: req.body.password
     }
     Auth.findOne({
-        username: req.body.username
+        where : {username: req.body.username}
     })
         .then(user => {
             if (!user) {
                 bcrypt.hash(req.body.password, 10, (err, hash) => {
                     userData.password = hash
-                    User.create(userData)
+                    Auth.create(userData)
                         .then(user_data => {
                             res.json("Registered")
                         })
@@ -62,5 +63,5 @@ function Signup(req, res) {
         })
 }
 
-module.exports = {Login, Signup}
+module.exports = {login, signup}
 

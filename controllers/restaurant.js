@@ -19,8 +19,13 @@ function restaurantOpenAtCertainTime(req, res) {
     if(minutes>1440 || minutes <0){
         return res.status(400).json({error : "Incorrect time format"});
     }
-    OpenHour.findAll({ attributes: [], distinct: true, where: { day: day, from: { [Op.lte]: minutes }, to: { [Op.gte]: minutes } }, include: [{ model: Restaurant, attributes: ["restaurantName"]}]}).then(restro=>{
-        return res.status(201).json( restro);
+    OpenHour.findAll({ 
+        attributes: [], 
+        distinct: true, 
+        where: { day: day, from: { [Op.lte]: minutes }, to: { [Op.gte]: minutes } }, 
+        include: [{ model: Restaurant, attributes: ["restaurantName"] }] 
+    }).then(restro => {
+        return res.status(201).json(restro);
     })
 }
 
@@ -62,6 +67,7 @@ function topYRestaurant(req, res) {
 
 async function searchRestaurant(req, res){
     let {restaurantName} = req.params;
+    res.send(restaurantName)
     // const restro = await db.sequelize.query('SELECT restaurantName,soundex(restaurantName),soundex("' + restaurantName + '") FROM Restaurants limit 20', {
     //     model: Restaurant,
     //     mapToModel: true // pass true here if you have any mapped fields
