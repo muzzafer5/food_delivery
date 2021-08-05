@@ -18,13 +18,13 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'restaurantID',
         onDelete: 'CASCADE'
       })
+      Order.belongsTo(models.Menu, {
+        foreignKey: 'dishId',
+        onDelete: 'CASCADE'
+      })
     }
   };
   Order.init({
-    dishName: {
-      type : DataTypes.STRING,
-      allowNull : false
-    },
     transactionAmount: {
       type: DataTypes.FLOAT,
       allowNull: false

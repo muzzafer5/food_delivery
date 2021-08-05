@@ -26,6 +26,9 @@ function restaurantOpenAtCertainTime(req, res) {
         include: [{ model: Restaurant, attributes: ["restaurantName"] }] 
     }).then(restro => {
         return res.status(201).json(restro);
+    }).catch(err => {
+        console.log(err)
+        res.status(400).json(err);
     })
 }
 
@@ -61,7 +64,7 @@ function topYRestaurant(req, res) {
         return res.status(201).json(restro);
     }).catch(err=>{
         console.log(err)
-        res.status(400).json(err);
+        return res.status(400).json(err);
     })
 }
 

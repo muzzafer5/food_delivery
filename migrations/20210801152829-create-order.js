@@ -8,10 +8,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      dishName: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
       transactionAmount: {
         allowNull: false,
         type: Sequelize.FLOAT
@@ -45,6 +41,15 @@ module.exports = {
           model: 'Restaurants',
           key: 'id',
           as: 'restaurantId'
+        }
+      },
+      dishId: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Menus',
+          key: 'id',
+          as: 'dishId'
         }
       }
     });
