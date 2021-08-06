@@ -6,6 +6,7 @@ const Menu = db.Menu
 const OpenHour = db.OpenHour
 
 const weeks = ["Mon", "Tues", "Weds", "Thurs", "Fri", "Sat", "Sun"]
+const client = require('../config/elasticsearch')
 
 function restaurantOpenAtCertainTime(req, res) {
     let {day,time} = req.query;
@@ -70,7 +71,26 @@ function topYRestaurant(req, res) {
 
 async function searchRestaurant(req, res){
     let {restaurantName} = req.params;
-    res.send(restaurantName)
+    client.search({
+        index: 'restaurant',
+        body: {
+            query: {
+                match: {
+                    name: {
+                        query: restaurantName,
+                        fuzziness: "AUTO",
+                        prefix_length: 0,
+                        max_expansions: 50
+                    }
+                }
+            }
+        }
+    }).then(restaurantData => {
+        return res.status(200).json(restaurantData.body.hits.hits);
+    }).catch(err => {
+        console.log(err)
+        return res.status(400).json(err);
+    })
     // const restro = await db.sequelize.query('SELECT restaurantName,soundex(restaurantName),soundex("' + restaurantName + '") FROM Restaurants limit 20', {
     //     model: Restaurant,
     //     mapToModel: true // pass true here if you have any mapped fields
@@ -78,4 +98,28 @@ async function searchRestaurant(req, res){
     // res.json(restro)
 }
 
-module.exports = {restaurantOpenAtCertainTime, topYRestaurant, searchRestaurant}
+async function searchDish(req, res) {
+    let { dishName } = req.params;
+    client.search({
+        index: 'dish',
+        body: {
+            query: {
+                match: {
+                    name: {
+                        query: dishName,
+                        fuzziness: "AUTO",
+                        prefix_length: 0,
+                        max_expansions: 50
+                    }
+                }
+            }
+        }
+    }).then(dishData => {
+        return res.status(200).json(dishData.body.hits.hits);
+    }).catch(err => {
+        console.log(err)
+        return res.status(400).json(err);
+    })
+}
+
+module.exports = {restaurantOpenAtCertainTime, topYRestaurant, searchRestaurant, searchDish}

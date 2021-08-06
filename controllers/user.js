@@ -4,7 +4,6 @@ const { Op, fn, col } = require('sequelize')
 const User = db.User
 const Menu = db.Menu
 const Order = db.Order
-const Restaurant = db.Restaurant
 
 function purchase(req, res){
     let authId = req.user._id

@@ -1,16 +1,5 @@
-require("dotenv").config();
-const { Client } = require('@elastic/elasticsearch');
-const { searchRestaurant } = require("./controllers/restaurant");
 const restro = require("./data/restaurant_with_menu.json");
-
-//creating elasticsearch client
-const client = new Client({
-    node: process.env.ElasticURI,
-    auth: {
-        username: process.env.ElasticUserName,
-        password: process.env.ElasticPassword,
-    }
-});
+const client = require('./config/elasticsearch');
 
 function createRestaurants(){
 
@@ -107,15 +96,25 @@ function deleteData(){
 
 // fuzzy search in restaurant table
 function search() {
+    let resDish = []
     client.search({
         index: 'dish',
         body: {
             query: {
-                fuzzy: { name: 'blue' }
+                match: {
+                    name: {
+                        query: "blues",
+                        fuzziness : "AUTO",
+                        prefix_length: 0,
+                        max_expansions : 30
+                    }
+                }
             }
         }
     }).then(res => {
-        console.log(res.body.hits.hits)
+        resDish = res.body.hits.hits
+        console.log(res.body.hits.total)
+        console.log(resDish.length)
     }).catch(err => {
         console.log(err)
     })

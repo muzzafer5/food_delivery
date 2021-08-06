@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
-const {restaurantOpenAtCertainTime, topYRestaurant, searchRestaurant} = require('../controllers/restaurant')
+const {restaurantOpenAtCertainTime, topYRestaurant, searchRestaurant, searchDish} = require('../controllers/restaurant')
 
 router
     .route('/open')
@@ -14,5 +14,9 @@ router
 router
     .route('/search/:restaurantName')
     .get((req, res) => searchRestaurant(req, res))
+
+router
+    .route('/search/dish/:dishName')
+    .get((req, res) => searchDish(req, res))
 
 module.exports = router
