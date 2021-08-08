@@ -5,6 +5,12 @@ const User = require('../models').User
 const SECRET_KEY = process.env.SECRET_KEY
 
 function login(req, res) {
+    if (!('username' in req.body)){
+        return res.status(400).json({error : "username missing"})
+    }
+    if (!('password' in req.body)) {
+        return res.status(400).json({ error: "password missing" })
+    }
     Auth.findOne({
         where: { username: req.body.username}
     })
@@ -15,26 +21,37 @@ function login(req, res) {
                     const payload = {
                         _id: user.id,
                     }
-                    console.log(payload)
                     let token = jwt.sign(payload, SECRET_KEY, {
                         expiresIn: 3600 * 24 * 30
                     })
-                    res.json(token)
+                    return res.status(200).json({ authToken : token})
                 }
                 else {
-                    return res.status(422).json({ error: "User doesn't exist" })
+                    return res.status(404).json({ error: "user was not found or the password was incorrect" })
                 }
             }
             else {
-                return res.status(422).json({ error: "User doesn't exist" })
+                return res.status(404).json({ error: "user was not found or the password was incorrect" })
             }
         })
         .catch(err => {
-            return res.status(422).json({ error: err })
+            return res.status(400).json({ error: err })
         })
 }
 
 function signup(req, res) {
+    if (!('username' in req.body)) {
+        return res.status(400).json({ error: "username missing" })
+    }
+    if (!('password' in req.body)) {
+        return res.status(400).json({ error: "password missing" })
+    }
+    if (!('name' in req.body)) {
+        return res.status(400).json({ error: "name missing" })
+    }
+    if (!('cashBalance' in req.body)) {
+        return res.status(400).json({ error: "cashBalance missing" })
+    }
     const authData = {
         username: req.body.username,
         password: req.body.password
@@ -49,24 +66,22 @@ function signup(req, res) {
                     Auth.create(authData)
                         .then(auth => {
                             User.create({ name: req.body.name, cashBalance: req.body.cashBalance, authId: auth.dataValues.id}).then(user=>{
-                                res.json("Registered")
+                                res.status(200).send("user registered!")
                             }).catch(err => {
-                                console.log(err)
-                                return res.status(422).json({ error: err })
+                                return res.status(400).json({ error: err })
                             })
                         })
                         .catch(err => {
-                            console.log(err)
-                            return res.status(422).json({ error: err })
+                            return res.status(400).json({ error: err })
                         })
                 })
             }
             else {
-                return res.status(422).json({ error: "User already exit" })
+                return res.status(409).json({ error: "User already exit" })
             }
         })
         .catch(err => {
-            return res.status(422).json({ error: err })
+            return res.status(400).json({ error: err })
         })
 }
 

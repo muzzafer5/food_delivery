@@ -1,8 +1,10 @@
-require("dotenv").config()
-const app = require('./route')
-const port = process.env.APP_PORT
-const client = require('./config/elasticsearch')
-var models = require("./models");
+require("dotenv").config();
+const swaggerJsdoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express')
+const port = process.env.APP_PORT;
+const app = require('./route');
+const client = require('./config/elasticsearch');
+const models = require("./models");
 
 // checking mysql db connection
 models.sequelize.sync().then(() => {
@@ -11,13 +13,45 @@ models.sequelize.sync().then(() => {
     console.log("error in mysql connection")
 })
 
-
 // checking elasticsearch connection
 client.ping((error) => {
     if (error) {
         console.trace('elasticsearch cluster is down!');
     } console.log('elasticsearch connected');
 });
+
+// swagger documention configuration
+const options = {
+    definition: {
+        swagger: "2.0",
+        info: {
+            title: 'Buying Frenzy',
+            version: '1.0.0',
+            description: "A backend service for a food delivery platform",
+            contact: {
+                email: "muzzaferali5@gmail.com"
+            },
+        },
+        schemes: ["http"],
+        host: "localhost:5000",
+        basePath: "/api/v1"
+    },
+    apis: ["./routes/*.js"], // files containing annotations as above
+};
+
+const openapiSpecification = swaggerJsdoc(options);
+var cssOption = {
+    customCss: '.swagger-ui .topbar { display: none }'
+};
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiSpecification, cssOption))
+
+// var tmp = {
+//     swaggerOptions: {
+//         url: 'http://petstore.swagger.io/v2/swagger.json'
+//     }
+// }
+// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(null, tmp));
 
 app.listen(port, function () {
     console.log('Server is running on port: ' + port)
