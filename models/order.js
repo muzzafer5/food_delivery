@@ -1,4 +1,25 @@
 'use strict';
+
+/**
+ * @swagger
+ * definitions:
+ *  Order:
+ *    type : object
+ *    properties:
+ *      id:
+ *        type : integer
+ *      transactionAmount:
+ *        type : float
+ *      transactionDate:
+ *        type : date
+ *      userId:
+ *        type : integer
+ *      restaurantId:
+ *        type : integer
+ *      dishId:
+ *        type : integer
+*/
+
 const {
   Model
 } = require('sequelize');

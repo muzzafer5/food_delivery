@@ -90,5 +90,4 @@ router
     .route('/signup')
     .post((req, res) => signup(req, res))
 
-
 module.exports = router

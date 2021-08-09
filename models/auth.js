@@ -1,4 +1,17 @@
 'use strict';
+
+/**
+ * @swagger
+ * definitions:
+ *  Auth:
+ *    type : object
+ *    properties:
+ *      username:
+ *        type : string
+ *      password:
+ *        type : string
+*/
+
 const {
   Model
 } = require('sequelize');

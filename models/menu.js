@@ -1,4 +1,21 @@
 'use strict';
+
+/**
+ * @swagger
+ * definitions:
+ *  Menu:
+ *    type : object
+ *    properties:
+ *      id:
+ *        type : integer
+ *      dishName:
+ *        type : string
+ *      price:
+ *        type : float
+ *      restaurantId:
+ *        type : integer
+*/
+
 const {
   Model
 } = require('sequelize');

@@ -8,9 +8,9 @@ const models = require("./models");
 
 // checking mysql db connection
 models.sequelize.sync().then(() => {
-    console.log("mysql db connected")
+    console.log("mysql db connected");
 }).catch(() => {
-    console.log("error in mysql connection")
+    console.log("error in mysql connection");
 })
 
 // checking elasticsearch connection
@@ -36,7 +36,7 @@ const options = {
         host: "localhost:5000",
         basePath: "/api/v1"
     },
-    apis: ["./routes/*.js"], // files containing annotations as above
+    apis: ["./routes/*.js", "./models/*.js"], // files containing annotations as above
 };
 
 const openapiSpecification = swaggerJsdoc(options);
@@ -44,16 +44,9 @@ var cssOption = {
     customCss: '.swagger-ui .topbar { display: none }'
 };
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiSpecification, cssOption))
-
-// var tmp = {
-//     swaggerOptions: {
-//         url: 'http://petstore.swagger.io/v2/swagger.json'
-//     }
-// }
-// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(null, tmp));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiSpecification, cssOption));
 
 app.listen(port, function () {
-    console.log('Server is running on port: ' + port)
+    console.log('Server is running on port: ' + port);
 });
 

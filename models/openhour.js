@@ -1,4 +1,23 @@
 'use strict';
+
+/**
+ * @swagger
+ * definitions:
+ *  OpenHour:
+ *    type : object
+ *    properties:
+ *      id:
+ *        type : integer
+ *      day:
+ *        type : string
+ *      from:
+ *        type : integer
+ *      to:
+ *        type : integer
+ *      restaurantId:
+ *        type : integer
+*/
+
 const {
   Model
 } = require('sequelize');

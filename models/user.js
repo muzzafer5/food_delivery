@@ -1,4 +1,21 @@
 'use strict';
+
+/**
+ * @swagger
+ * definitions:
+ *  User:
+ *    type : object
+ *    properties:
+ *      id:
+ *        type : integer
+ *      name:
+ *        type : string
+ *      cashBalance:
+ *        type : float
+ *      authId:
+ *        type : integer
+*/
+
 const {
   Model
 } = require('sequelize');

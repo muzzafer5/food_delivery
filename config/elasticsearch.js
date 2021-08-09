@@ -1,5 +1,5 @@
-const { Client } = require('@elastic/elasticsearch')
-require("dotenv").config()
+const { Client } = require('@elastic/elasticsearch');
+require("dotenv").config();
 
 //creating elasticsearch client
 const client = new Client({
@@ -8,6 +8,6 @@ const client = new Client({
         username: process.env.ElasticUserName,
         password: process.env.ElasticPassword,
     }
-})
+});
 
 module.exports = client;

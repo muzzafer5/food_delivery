@@ -34,4 +34,16 @@ Object.keys(db).forEach(modelName => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
+/**
+ * @swagger
+ * definitions:
+ *  Base (common to all models):
+ *    type : object
+ *    properties:
+ *      createdAt:
+ *        type : date
+ *      updatedAt:
+ *        type : date
+*/
+
 module.exports = db;
