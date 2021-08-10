@@ -1,32 +1,52 @@
-const db = require('../models')
-const { Op, fn, col } = require('sequelize')
+const db = require('../models');
+const { Op, fn, col } = require('sequelize');
+const client = require('../config/elasticsearch');
 
-const Restaurant = db.Restaurant
-const Menu = db.Menu
-const OpenHour = db.OpenHour
+const Restaurant = db.Restaurant;
+const Menu = db.Menu;
+const OpenHour = db.OpenHour;
 
-const weeks = ["Mon", "Tues", "Weds", "Thurs", "Fri", "Sat", "Sun"]
-const client = require('../config/elasticsearch')
+const weeks = ["MO", "TU", "WE", "TH", "FR", "SA", "SU"];
 
 function restaurantOpenAtCertainTime(req, res) {
-    let {day,time} = req.query;
-    let split_time = time.split(':'), minutes = 0;
-    minutes = parseInt(split_time[0]) * 60;
-    if(split_time.length==2)
-        minutes+=parseInt(split_time[1]);
-    if(!weeks.includes(day)){
-        return res.status(400).json({ error: "Incorrect day" });
+    let { day, time } = req.query;
+    let d, hh, mm=0;
+    // if not day, then taken current day
+    if (!('day' in req.query)) {
+        d = new Date();
+        day = weeks[d.getDay()-1];
     }
-    if(minutes>1440 || minutes <0){
-        return res.status(400).json({error : "Incorrect time format"});
+    // validate day
+    else{
+        day = day.substring(0,2);
+        day = day.toUpperCase();
+        if (!weeks.includes(day)) {
+            return res.status(400).json({ error: "Incorrect day" });
+        }
     }
+    // if not day, then taken current time
+    if (!('time' in req.query)) {
+        d = new Date();
+        hh = d.getHours();
+        mm = d.getMinutes();
+    }
+    //validate time
+    else{
+        let split_time = time.split(':');
+        hh = parseInt(split_time[0]);
+        if (split_time.length > 1)
+            mm = parseInt(split_time[1]);
+        if(isNaN(hh) || isNaN(mm) || hh<0 || mm<0 || mm>60 || hh*60 +mm > 1440)
+            return res.status(400).json({ error: "Incorrect time format" });
+    }
+    let minutes = hh*60 + mm;
     OpenHour.findAll({ 
         attributes: [], 
         distinct: true, 
         where: { day: day, from: { [Op.lte]: minutes }, to: { [Op.gte]: minutes } }, 
-        include: [{ model: Restaurant, attributes: ["restaurantName"] }] 
+        include: [{ model: Restaurant, attributes: ["id","restaurantName"] }] 
     }).then(restro => {
-        return res.status(201).json(restro);
+        return res.status(200).json(restro);
     }).catch(err => {
         console.log(err)
         res.status(400).json(err);
