@@ -11,6 +11,7 @@ app.use(express.json({ limit: "50mb" }));
 const restaurant = require("./routes/restaurant");
 const auth = require("./routes/auth");
 const user = require("./routes/user");
+const dish = require("./routes/dish");
 
 // get request at host
 app.get('/',  (req, res) => {
@@ -21,6 +22,7 @@ app.get('/',  (req, res) => {
 app.use("/api/v1/restaurant", restaurant);
 app.use("/api/v1/auth", auth);
 app.use("/api/v1/user", user);
+app.use("/api/v1/dish", dish);
 
 module.exports = app;
 

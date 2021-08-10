@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const {restaurantOpenAtCertainTime, topYRestaurant, searchRestaurant, searchDish} = require('../controllers/restaurant');
+const {restaurantOpenAtCertainTime, topYRestaurant, searchRestaurant} = require('../controllers/restaurant');
 
 /**
  * @swagger
@@ -137,7 +137,8 @@ router
  *                _id:
  *                  type: string
  *                _score: 
- *                  type: string
+ *                  type: number
+ *                  format: double
  *                _source:
  *                  type: object
  *                  properties:
