@@ -79,7 +79,7 @@ router
  *       required : true
  *       type : float
  *     responses:
- *       200:
+ *       201:
  *         description: The request was successful.
  *       400:
  *         description: The request was invalid / username or password or name or cashBalance missing.
