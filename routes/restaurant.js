@@ -1,7 +1,7 @@
-const express = require('express')
-const router = express.Router()
+const express = require('express');
+const router = express.Router();
 
-const {restaurantOpenAtCertainTime, topYRestaurant, searchRestaurant, searchDish} = require('../controllers/restaurant')
+const {restaurantOpenAtCertainTime, topYRestaurant, searchRestaurant, searchDish} = require('../controllers/restaurant');
 
 /**
  * @swagger
@@ -9,25 +9,23 @@ const {restaurantOpenAtCertainTime, topYRestaurant, searchRestaurant, searchDish
  *   get:
  *     tags :
  *     - Restaurant
- *     name : Restaurant
- *     summary : Restaurant
- *     description: Fetch restaurants open at that day and time
+ *     name : Open at
+ *     summary : Open at
+ *     description: List all restaurants open at certain day and time
  *     produces:
  *     - application/json
  *     parameters :
  *     - name : day
- *       description : should be atleast 2 first letter of any days, eg. Mo, thurs, wed, sunday
+ *       description : should be atleast 2 first letter of any days, eg. Mo, thurs, wed, sunday. Defualt value is today's day
  *       in : query
- *       required : true
  *       type : string
  *     - name : time
- *       description : should be in hh:mm where 0 <= hh < 24
+ *       description : should be in hh:mm where 0 <= hh < 24. Defualt value is current time
  *       in: query
- *       required : true
  *       type : string
  *     responses:
  *       200:
- *         description: The query was successful. The response will contain the list of restaurants with their ids
+ *         description: The query was successful. The response will contain the list of restaurants with their ids.
  *         schema:
  *            type : array
  *            items:
@@ -47,6 +45,62 @@ const {restaurantOpenAtCertainTime, topYRestaurant, searchRestaurant, searchDish
 router
     .route('/open')
     .get((req, res) => restaurantOpenAtCertainTime(req, res))
+
+
+/**
+ * @swagger
+ * /restaurant/fetch?y=&x=&min_price=&max_price=&lesser=:
+ *   get:
+ *     tags :
+ *     - Restaurant
+ *     name : Fetch top y
+ *     summary : Fetch top y
+ *     description: List top y restaurants that have more or less than x number of dishes within a price range
+ *     produces:
+ *     - application/json
+ *     parameters :
+ *     - name : y
+ *       description : to fetch top y
+ *       in : query
+ *       type : integer
+ *       required : true
+ *     - name : x
+ *       description : x number of dishes
+ *       in : query
+ *       type : integer
+ *       required : true
+ *     - name : min_price
+ *       description : defualt value is 0
+ *       in : query
+ *       type : float
+ *     - name : max_price
+ *       description : defualt value is INF
+ *       in: query
+ *       type : float
+ *     - name : lesser
+ *       description : if true then show top y have less than x dish within price range, default value is false
+ *       in: query
+ *       type : bool
+ *     responses:
+ *       200:
+ *         description: The query was successful. The response will contain the list of restaurants with their ids and dish count within price range
+ *         schema:
+ *            type : array
+ *            items:
+ *              type : object
+ *              properties:
+ *                dishCount:
+ *                  type: integer
+ *                Restaurant:
+ *                  type: object
+ *                  properties:
+ *                   id:
+ *                    type : integer
+ *                   restaurantName:
+ *                    type : string
+ *       400:
+ *         description: The request was invalid / x or y missing/invalid, min_price or max_price invalid
+ */
 
 router
     .route('/fetch')

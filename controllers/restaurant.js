@@ -9,10 +9,11 @@ const OpenHour = db.OpenHour;
 const weeks = ["MO", "TU", "WE", "TH", "FR", "SA", "SU"];
 
 function restaurantOpenAtCertainTime(req, res) {
+
     let { day, time } = req.query;
     let d, hh, mm=0;
     // if not day, then taken current day
-    if (!('day' in req.query)) {
+    if (!day) {
         d = new Date();
         day = weeks[d.getDay()-1];
     }
@@ -25,7 +26,7 @@ function restaurantOpenAtCertainTime(req, res) {
         }
     }
     // if not day, then taken current time
-    if (!('time' in req.query)) {
+    if (!time) {
         d = new Date();
         hh = d.getHours();
         mm = d.getMinutes();
@@ -56,33 +57,52 @@ function restaurantOpenAtCertainTime(req, res) {
 function topYRestaurant(req, res) {
 
     let { y, x, min_price, max_price, lesser } = req.query;
+    // check for y, x and then parse integer from them
+    if(!y || !x){
+        return res.status(400).json({ error: "y or x missing" });
+    }
     y = parseInt(y);
-    if(min_price==undefined)
+    x = parseInt(x);
+    if (isNaN(y) || isNaN(x) ) {
+        return res.status(400).json({ error: "y or x  invalid number" });
+    }
+
+    if(!min_price)
         min_price = 0;
-    if (max_price == undefined)
-        max_price = Number.MAX_SAFE_INTEGER;
-    
+    else
+        min_price = parseFloat(min_price);
+    if (!max_price)
+        max_price = Number.MAX_SAFE_INTEGER; // if not assigning max price to INF
+    else
+        max_price = parseFloat(max_price);
+
+    if (isNaN(min_price) || isNaN(max_price)) {
+        return res.status(400).json({ error: "min_price or max_price invalid number" });
+    }
+
+    // compare func either less than or more than
     let compareFun;
-    if(lesser==1){
+    if(lesser){
         compareFun = Op.lt
     }
     else{
         compareFun = Op.gt
     }
+
     Menu.findAll({
         limit : y, 
-        attributes: [[fn('count', col('restaurantId')), 'cnt']],
+        attributes: [[fn('count', col('restaurantId')), 'dishCount']],
         where: { price: { [Op.lte]: max_price, [Op.gte]: min_price } }, 
         include :[{
             model : Restaurant,
             required : true,
-            attributes: ['restaurantName']
+            attributes: ['id','restaurantName']
         }],
         group : ['restaurantId'],
-        having: { cnt : {[compareFun] : x}},
-        logging: console.log
+        having: { dishCount : {[compareFun] : x}}
+        //logging: console.log
     }).then(restro => {
-        return res.status(201).json(restro);
+        return res.status(200).json(restro);
     }).catch(err=>{
         console.log(err)
         return res.status(400).json(err);
