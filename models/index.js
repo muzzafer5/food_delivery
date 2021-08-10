@@ -41,9 +41,11 @@ db.Sequelize = Sequelize;
  *    type : object
  *    properties:
  *      createdAt:
- *        type : date
+ *        type : string
+ *        format : date
  *      updatedAt:
- *        type : date
+ *        type : string
+ *        format : date
 */
 
 module.exports = db;

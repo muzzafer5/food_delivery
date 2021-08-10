@@ -11,7 +11,8 @@
  *      dishName:
  *        type : string
  *      price:
- *        type : float
+ *        type : number
+ *        format: float
  *      restaurantId:
  *        type : integer
 */

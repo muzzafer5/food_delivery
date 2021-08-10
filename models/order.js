@@ -9,9 +9,11 @@
  *      id:
  *        type : integer
  *      transactionAmount:
- *        type : float
+ *        type : number
+ *        format: float
  *      transactionDate:
- *        type : date
+ *        type : string
+ *        format : date
  *      userId:
  *        type : integer
  *      restaurantId:
@@ -20,9 +22,8 @@
  *        type : integer
 */
 
-const {
-  Model
-} = require('sequelize');
+const Sequelize = require('sequelize');
+const Model = Sequelize.Model
 module.exports = (sequelize, DataTypes) => {
   class Order extends Model {
     /**
@@ -53,7 +54,7 @@ module.exports = (sequelize, DataTypes) => {
     transactionDate: {
       allowNull: false,
       type: DataTypes.DATE,
-      defaultValue: Date.now()
+      defaultValue: DataTypes.NOW
     }
   }, {
     sequelize,

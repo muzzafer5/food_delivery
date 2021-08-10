@@ -11,7 +11,8 @@
  *      name:
  *        type : string
  *      cashBalance:
- *        type : float
+ *        type : number
+ *        format: float
  *      authId:
  *        type : integer
 */

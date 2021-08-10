@@ -9,8 +9,8 @@ const {searchDish} = require("../controllers/dish")
  *   get:
  *     tags :
  *     - Dish
- *     name : Search dish
- *     summary : Search dish
+ *     name : Search dishes
+ *     summary : Search dishes
  *     description: Search for dish by name, ranked by relevance to search term
  *     produces:
  *     - application/json

@@ -80,7 +80,7 @@ router
  *     - name : lesser
  *       description : if true then show top y have less than x dish within price range, default value is false
  *       in: query
- *       type : bool
+ *       type : boolean
  *     responses:
  *       200:
  *         description: The query was successful. The response will contain the list of restaurants with their ids and dish count within price range
@@ -112,8 +112,8 @@ router
  *   get:
  *     tags :
  *     - Restaurant
- *     name : Search restaurant
- *     summary : Search restaurant
+ *     name : Search restaurants
+ *     summary : Search restaurants
  *     description: Search for restaurants by name, ranked by relevance to search term
  *     produces:
  *     - application/json

@@ -11,7 +11,8 @@
  *      restaurantName:
  *        type : string
  *      cashBalance:
- *        type : float
+ *        type : number
+ *        format: float
 */
 
 const {
