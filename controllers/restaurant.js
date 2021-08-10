@@ -110,7 +110,13 @@ function topYRestaurant(req, res) {
 }
 
 async function searchRestaurant(req, res){
+
     let {restaurantName} = req.params;
+    if(!restaurantName){
+        return res.status(400).json({ error: "restaurantName missing" });
+    }
+
+    // perform search in elasticsearch db
     client.search({
         index: 'restaurant',
         body: {

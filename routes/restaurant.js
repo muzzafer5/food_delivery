@@ -106,12 +106,49 @@ router
     .route('/fetch')
     .get((req, res) => topYRestaurant(req, res))
 
+/**
+ * @swagger
+ * /restaurant/search/{restaurantName}:
+ *   get:
+ *     tags :
+ *     - Restaurant
+ *     name : Search restaurant
+ *     summary : Search restaurant
+ *     description: Search for restaurants by name, ranked by relevance to search term
+ *     produces:
+ *     - application/json
+ *     parameters :
+ *     - name : restaurantName
+ *       description : name of the restaurant you want to search
+ *       in : path
+ *       type : string
+ *     responses:
+ *       200:
+ *         description: The query was successful. The response will contain the list of restaurants with their ids.
+ *         schema:
+ *            type : array
+ *            items:
+ *              type : object
+ *              properties:
+ *                _index:
+ *                  type: string
+ *                _type:
+ *                  type: string
+ *                _id:
+ *                  type: string
+ *                _score: 
+ *                  type: string
+ *                _source:
+ *                  type: object
+ *                  properties:
+ *                   name:
+ *                    type : string
+ *       400:
+ *         description: The request was invalid / restaurantName missing.
+ */
+
 router
     .route('/search/:restaurantName')
     .get((req, res) => searchRestaurant(req, res))
-
-router
-    .route('/search/dish/:dishName')
-    .get((req, res) => searchDish(req, res))
 
 module.exports = router
