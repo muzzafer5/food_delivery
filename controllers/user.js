@@ -24,7 +24,6 @@ async function purchase(req, res){
             if(dish){
                 let restaurantId = dish.dataValues.restaurantId;
                 let price = dish.dataValues.price;
-                console.log(balance);
                 if (price > balance) {
                     return res.status(422).json("Insufficient balance");
                 }
@@ -47,12 +46,10 @@ async function purchase(req, res){
 
                         await user.update({ cashBalance: balance }, { transaction: orderTransaction});
                         await orderTransaction.commit();
-                        console.log(user)
                         return res.status(201).json(order);
 
                     } catch (err) {
                         await orderTransaction.rollback();
-                        console.log(err);
                         return res.status(500).json(err);
                     }
                     // Order.create({

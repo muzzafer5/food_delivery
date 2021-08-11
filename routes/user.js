@@ -25,6 +25,7 @@ const requireLogin = require('../middleware/require_login')
  *       required : true
  *       type : integer
  *     - name : authorization
+ *       description : enter the token recieved after login
  *       in : header
  *       required : true
  *       type: string

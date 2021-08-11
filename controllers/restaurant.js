@@ -49,7 +49,6 @@ function restaurantOpenAtCertainTime(req, res) {
     }).then(restro => {
         return res.status(200).json(restro);
     }).catch(err => {
-        console.log(err)
         res.status(400).json(err);
     })
 }
@@ -104,7 +103,6 @@ function topYRestaurant(req, res) {
     }).then(restro => {
         return res.status(200).json(restro);
     }).catch(err=>{
-        console.log(err)
         return res.status(400).json(err);
     })
 }
@@ -134,7 +132,6 @@ async function searchRestaurant(req, res){
     }).then(restaurantData => {
         return res.status(200).json(restaurantData.body.hits.hits);
     }).catch(err => {
-        console.log(err)
         return res.status(400).json(err);
     })
     // const restro = await db.sequelize.query('SELECT restaurantName,soundex(restaurantName),soundex("' + restaurantName + '") FROM Restaurants limit 20', {

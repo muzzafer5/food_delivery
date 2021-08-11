@@ -25,7 +25,6 @@ async function searchDish(req, res) {
     }).then(dishData => {
         return res.status(200).json(dishData.body.hits.hits);
     }).catch(err => {
-        console.log(err)
         return res.status(400).json(err);
     })
 }
