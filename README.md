@@ -12,6 +12,9 @@ Requirement :
 #after clone the repository
 $ go to root app directory
 
+#create .env file
+$ Add all keys from sample.env and respective values in .env file
+
 # install required library
 $ npm install
 
@@ -27,20 +30,20 @@ $ npm start
 ```
 ## Deployment
 
-- The application is hosted on heroku platform.
+- The application is hosted on heroku platform. https://buyingfrenzy.herokuapp.com/
 
 
 ## Access API Docs ( Swagger )
 
 ```bash
-# in web browser:
+# link:
+$ https://buyingfrenzy.herokuapp.com/api-docs
+
+# in local machine
 $ http://localhost:5000/api-docs
 
 ```
 
-## Testing
-
-- Create a test database of your choice by following the example in .env.sample file
 
 ## Technologies
 
@@ -61,6 +64,6 @@ A backend service and a database for a food delivery platform
 <li> User can search for dishes by dish name </li>
 <li> User can fetch top y restaurants having more or less than x dishes within price range </li>
 <li> User can fetch restaurants open at certain datetime </li>
-<li> User can purchase a dish from a restaurant </li>
+<li> User can purchase a dish from the restaurant </li>
 </ul> 
 
