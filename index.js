@@ -1,7 +1,7 @@
 require("dotenv").config();
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express')
-const port = process.env.APP_PORT;
+const port = process.env.PORT;
 const app = require('./route');
 const client = require('./config/elasticsearch');
 const models = require("./models");
