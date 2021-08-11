@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "server": "nodemon server.js"
+    "server": "nodemon server.js",
+    "etl" : "node etl_in_mysql.js && node etl_in_elasticsearch.js"
   },
   "author": "",
   "license": "ISC",
