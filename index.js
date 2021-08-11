@@ -32,7 +32,7 @@ const options = {
                 email: "muzzaferali5@gmail.com"
             },
         },
-        schemes: ["https"],
+        schemes: process.env.NODE_ENV === "production" ? ["https"] : ["http"],
         host: process.env.NODE_ENV === "production" ? "buyingfrenzy.herokuapp.com": "localhost:5000",
         basePath: "/api/v1"
     },
