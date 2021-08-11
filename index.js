@@ -32,8 +32,8 @@ const options = {
                 email: "muzzaferali5@gmail.com"
             },
         },
-        schemes: ["http"],
-        host: process.env.NODE_ENV === "production" ? "https://buyingfrenzy.herokuapp.com/": "localhost:5000",
+        schemes: ["https"],
+        host: process.env.NODE_ENV === "production" ? "buyingfrenzy.herokuapp.com": "localhost:5000",
         basePath: "/api/v1"
     },
     apis: ["./routes/*.js", "./models/*.js"], // files containing annotations as above
