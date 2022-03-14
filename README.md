@@ -1,4 +1,4 @@
-# Buying Frenzy | Backend Task
+# Food deliver system | Backend service
 
 A backend service and a database for a food delivery platform
 
