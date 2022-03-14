@@ -1,4 +1,4 @@
-# Food deliver system | Backend service
+# Food delivery system | Backend service
 
 A backend service and a database for a food delivery platform
 
