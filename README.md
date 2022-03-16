@@ -1,7 +1,7 @@
 # Food delivery system | Backend service
-# https://buyingfrenzy.herokuapp.com/api-docs
 
 A backend service and a database for a food delivery platform
+https://buyingfrenzy.herokuapp.com/api-docs
 
 ## Installation at local machine
 
